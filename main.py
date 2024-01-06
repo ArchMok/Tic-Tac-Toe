@@ -48,7 +48,16 @@ first_name = input("What is first player name?\n: ")
 second_name = input("What is second player name?\n: ")
 P1 = First_Player(first_name)
 P2 = Second_Player(second_name)
-    
+
+def check_win(board, player):
+    # Check rows, columns, and diagonals for a win
+    for i in range(3):
+        if all(board[i, j] == player.mark for j in range(3)) or all(board[j, i] == player.mark for j in range(3)):
+            return True
+    if all(board[i, i] == player.mark for i in range(3)) or all(board[i, 2 - i] == player.mark for i in range(3)):
+        return True
+    return False
+
 re = 0
 while re < 1:
     re += 1
@@ -126,25 +135,13 @@ if start == True:
     check = False
     count = 0
     while count != 10:
-        if check == True:
-            for check_round in range(len(possible_win)):
-                wins = possible_win[check_round]
-                if all(gb.board[row, col] == "X" for (row, col) in wins):
-                    print(f"\n\n{first.name} win!!")
+        if count == 0:
+            for i in range(3):
+                if all(gb.board[i,j] for j in range(3)) != " " == False:
+                    print("It's a tie!!")
                     count = 10
                     start = False
-                    check = False
                     break
-                elif all(gb.board[row, col] == "O" for (row, col) in wins):
-                    print(f"\n\n{second.name} win!!")
-                    count = 10
-                    start = False
-                    check = False
-                    break
-                else:
-                    check = False
-        elif count == 0:
-            count = 1
             print(f"\n\n{first.name} turn!\n")
             print(gb.board)
             try :
@@ -152,27 +149,42 @@ if start == True:
             except ValueError:
                 print("\nPlease type number!!")
                 row = None
+                break
             try :
                 column = int(input(f"Please select column (1 - 3)\n {first.name}: "))
             except ValueError:
                 print("\nPlease type number!!")
                 column = None
+                break
             if row not in valid_move or column not in valid_move:
                 print("Out of range!")
-                count = 0
+                break
             elif gb.board[row-1, column-1] == "O" or gb.board[row-1, column-1] == "X":
                 print("It already has mark in position!")
-                count = 0
+                break
             else:
                 gb.move_x(row, column)
-                check = True
+                count = 1
                 answer_2 = input("Do you want to confirm move? (Y/N)\n: ")
                 if answer_2.lower() == "n" or answer_2.lower() == "no":
                     gb.cancel_move(row,column)
                     count = 0
+                else:
+                    if check_win(gb.board, first) == True:
+                        print(f"\n\n{first.name} win!!")
+                        count = 10
+                        start = False
+                        break
+                    else:
+                        pass
             
         elif count == 1:
-            count = 0
+            for i in range(3):
+                if all(gb.board[i,j] for j in range(3)) != " " == False:
+                    print("It's a tie!!")
+                    count = 10
+                    start = False
+                    break
             print(f"\n\n {second.name} turn!\n")
             print(gb.board)
             try :
@@ -180,23 +192,28 @@ if start == True:
             except ValueError:
                 print("\nPlease type number!!")
                 row = None
-                count = 1
             try :
                 column = int(input(f"Please select column (1 - 3)\n {second.name}: "))
             except ValueError:
                 print("\nPlease type number!!")
                 column = None
-                count = 1
             if row not in valid_move or column not in valid_move:
                 print("Out of range!")
-                count = 1
             elif gb.board[row-1, column-1] == "O" or gb.board[row-1, column-1] == "X":
                 print("\n It already has a mark in this position!")
-                count = 1
             else:
                 gb.move_o(row, column)
-                check = True
+                count = 0
                 answer_2 = input("Do you want to confirm move? (Y/N)\n: ")
                 if answer_2.lower() == "n" or answer_2.lower() == "no":
                     gb.cancel_move(row,column)
                     count = 1
+                else:
+                    if check_win(gb.board, second) == True:
+                        print(f"\n\n{second.name} win!!")
+                        count = 10
+                        start = False
+                        break
+                    else:
+                        pass
+                    
