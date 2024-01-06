@@ -111,7 +111,7 @@ while re < 1:
         else:
             first = P2
             second = P1
-            print(f"{second.name} goes first!")
+            print(f"{first.name} goes first!")
             start = True
     elif answer.lower() == "quit":
         break
@@ -152,7 +152,6 @@ if start == True:
                 continue
             else:
                 gb.move_x(row, column)
-                count = 1
                 answer_2 = input("Do you want to confirm move? (Y/N)\n: ")
                 if answer_2.lower() == "n" or answer_2.lower() == "no":
                     gb.cancel_move(row,column)
@@ -163,6 +162,8 @@ if start == True:
                         count = 10
                         start = False
                         break
+                    else:
+                        count = 1
         elif count == 1:
             for i in range(3):
                 if all(cell != " " for cell in gb.board.flatten()):
@@ -190,7 +191,6 @@ if start == True:
                 continue
             else:
                 gb.move_o(row, column)
-                count = 0
                 answer_2 = input("Do you want to confirm move? (Y/N)\n: ")
                 if answer_2.lower() == "n" or answer_2.lower() == "no":
                     gb.cancel_move(row,column)
@@ -201,4 +201,6 @@ if start == True:
                         count = 10
                         start = False
                         break
+                    else:
+                        count = 0
                     
