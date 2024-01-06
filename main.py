@@ -50,7 +50,6 @@ P1 = First_Player(first_name)
 P2 = Second_Player(second_name)
 
 def check_win(board, player):
-    # Check rows, columns, and diagonals for a win
     for i in range(3):
         if all(board[i, j] == player.mark for j in range(3)) or all(board[j, i] == player.mark for j in range(3)):
             return True
@@ -107,12 +106,12 @@ while re < 1:
         if random == 1:
             first = P1
             second = P2
-            print(f"{P1.name} goes first!")
+            print(f"{first.name} goes first!")
             start = True
         else:
             first = P2
             second = P1
-            print(f"{P2.name} goes first!")
+            print(f"{second.name} goes first!")
             start = True
     elif answer.lower() == "quit":
         break
@@ -121,15 +120,6 @@ while re < 1:
         re -= 1
 
 gb = game_board
-win1 = gb.board[0,0],gb.board[0,1],gb.board[0,2]
-win2 = gb.board[1,0],gb.board[1,1],gb.board[1,2]
-win3 = gb.board[2,0],gb.board[2,1],gb.board[2,2]
-win4 = gb.board[0,0],gb.board[1,0],gb.board[2,0]
-win5 = gb.board[0,1],gb.board[1,1],gb.board[2,1]
-win6 = gb.board[0,2],gb.board[1,2],gb.board[2,2]
-win7 = gb.board[0,0],gb.board[1,1],gb.board[2,2]
-win8 = gb.board[0,2],gb.board[1,1],gb.board[2,0]
-possible_win = [win1, win2, win3, win4, win5, win6, win7, win8]
 valid_move = [1,2,3]
 if start == True:
     check = False
@@ -137,17 +127,17 @@ if start == True:
     while count != 10:
         if count == 0:
             for i in range(3):
-                if all(gb.board[i,j] for j in range(3)) != " " == True:
+                if all(cell != " " for cell in gb.board.flatten()):
                     print("It's a tie!!")
                     count = 10
                     start = False
-            print(f"\n\n{first.name} turn!\n")
+                    break
+            print(f"\n\n {first.name} turn!\n")
             print(gb.board)
             try :
                 row = int(input(f"Please select row (1 - 3)\n {first.name}: "))
             except ValueError:
                 print("\nPlease type number!!")
-                row = None
                 continue
             try :
                 column = int(input(f"Please select column (1 - 3)\n {first.name}: "))
@@ -158,7 +148,7 @@ if start == True:
                 print("Out of range!")
                 continue
             elif gb.board[row-1, column-1] == "O" or gb.board[row-1, column-1] == "X":
-                print("It already has mark in position!")
+                print("\n It already has a mark in this position!")
                 continue
             else:
                 gb.move_x(row, column)
@@ -173,10 +163,9 @@ if start == True:
                         count = 10
                         start = False
                         break
-            
         elif count == 1:
             for i in range(3):
-                if all(gb.board[i,j] for j in range(3)) != " " == True:
+                if all(cell != " " for cell in gb.board.flatten()):
                     print("It's a tie!!")
                     count = 10
                     start = False
