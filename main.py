@@ -137,11 +137,10 @@ if start == True:
     while count != 10:
         if count == 0:
             for i in range(3):
-                if all(gb.board[i,j] for j in range(3)) != " " == False:
+                if all(gb.board[i,j] for j in range(3)) != " " == True:
                     print("It's a tie!!")
                     count = 10
                     start = False
-                    break
             print(f"\n\n{first.name} turn!\n")
             print(gb.board)
             try :
@@ -149,19 +148,18 @@ if start == True:
             except ValueError:
                 print("\nPlease type number!!")
                 row = None
-                break
+                continue
             try :
                 column = int(input(f"Please select column (1 - 3)\n {first.name}: "))
             except ValueError:
                 print("\nPlease type number!!")
-                column = None
-                break
+                continue
             if row not in valid_move or column not in valid_move:
                 print("Out of range!")
-                break
+                continue
             elif gb.board[row-1, column-1] == "O" or gb.board[row-1, column-1] == "X":
                 print("It already has mark in position!")
-                break
+                continue
             else:
                 gb.move_x(row, column)
                 count = 1
@@ -175,12 +173,10 @@ if start == True:
                         count = 10
                         start = False
                         break
-                    else:
-                        pass
             
         elif count == 1:
             for i in range(3):
-                if all(gb.board[i,j] for j in range(3)) != " " == False:
+                if all(gb.board[i,j] for j in range(3)) != " " == True:
                     print("It's a tie!!")
                     count = 10
                     start = False
@@ -191,16 +187,18 @@ if start == True:
                 row = int(input(f"Please select row (1 - 3)\n {second.name}: "))
             except ValueError:
                 print("\nPlease type number!!")
-                row = None
+                continue
             try :
                 column = int(input(f"Please select column (1 - 3)\n {second.name}: "))
             except ValueError:
                 print("\nPlease type number!!")
-                column = None
+                continue
             if row not in valid_move or column not in valid_move:
                 print("Out of range!")
+                continue
             elif gb.board[row-1, column-1] == "O" or gb.board[row-1, column-1] == "X":
                 print("\n It already has a mark in this position!")
+                continue
             else:
                 gb.move_o(row, column)
                 count = 0
@@ -214,6 +212,4 @@ if start == True:
                         count = 10
                         start = False
                         break
-                    else:
-                        pass
                     
